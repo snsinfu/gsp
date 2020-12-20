@@ -28,6 +28,7 @@
 #ifndef INCLUDED_SNSINFU_GSP_HPP
 #define INCLUDED_SNSINFU_GSP_HPP
 
+#include <algorithm>
 #include <cstddef>
 #include <memory>
 #include <ostream>

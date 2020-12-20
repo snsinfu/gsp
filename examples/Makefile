@@ -1,6 +1,5 @@
 CXXFLAGS = \
   -std=c++14 \
-  -Wpedantic \
   -Wall \
   -Wextra \
   -Wconversion \
