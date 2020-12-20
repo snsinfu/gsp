@@ -18,9 +18,10 @@ int main()
     std::mt19937 random(0);
 
     // Initial simulation state. We start with (A, B, C) = (0, 1, 0). That is,
-    // there is only one B molecule in the system.
+    // there is only one B molecule in the system at time 0.
     gsp::state init = {
-        .species = {0, 1, 0}
+        .species = {0, 1, 0},
+        .time = 0,
     };
     gsp::simulation sim(init);
 
