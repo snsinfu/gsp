@@ -36,6 +36,15 @@ There are example programs in the [examples directory](./examples):
 - [A-B-C chain reaction](./examples/abc.cc)
 - [N-gene negative feedback cycle](./examples/feedback_cycle.cc)
 
+Try these out as follows:
+
+```console
+$ git clone https://github.com/snsinfu/gsp.git
+$ cd gsp/examples
+$ make
+$ ./abc
+```
+
 
 ## Project Status
 
