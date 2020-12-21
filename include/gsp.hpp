@@ -95,9 +95,8 @@ namespace gsp
         // Returns the species this reaction depends on.
         virtual std::vector<size_t> dependency() const = 0;
 
-        // Returns all the changes caused by a single occurrence of this
-        // reaction given system state.
-        virtual std::vector<gsp::change> changeset(gsp::state const& state) const = 0;
+        // Returns all the changes caused by a single reaction.
+        virtual std::vector<gsp::change> changeset() const = 0;
 
         // Returns the rate of this reaction given system state.
         virtual double rate(gsp::state const& state) const = 0;
@@ -137,6 +136,7 @@ namespace gsp
         {
             size_t const reaction_id = _reactions.size();
             _reactions.push_back(std::make_unique<Reaction>(reaction));
+            _changesets.push_back(reaction.changeset());
 
             _rates.push_back(reaction.rate(_state));
             _rate_sum += _rates.back();
@@ -182,10 +182,13 @@ namespace gsp
             // member variable. The `invalidation` variable here keeps track
             // of affected reactions.
             auto const& reaction = *_reactions[reaction_id];
+            auto const& changeset = _changesets[reaction_id];
             auto const rate = _rates[reaction_id];
-            std::vector<size_t> invalidation;
 
-            for (auto const& change : reaction.changeset(_state)) {
+            _invalidation.clear();
+            auto& invalidation = _invalidation;
+
+            for (auto const& change : changeset) {
                 _state.species[change.species] += change.amount;
 
                 invalidation.insert(
@@ -215,6 +218,8 @@ namespace gsp
     private:
         gsp::state                                  _state;
         std::vector<std::vector<size_t>>            _dependants;
+        std::vector<size_t>                         _invalidation;
+        std::vector<std::vector<gsp::change>>       _changesets;
         std::vector<std::unique_ptr<gsp::reaction>> _reactions;
         std::vector<double>                         _rates;
         double                                      _rate_sum = 0;
@@ -253,7 +258,7 @@ namespace gsp
             return {_species};
         }
 
-        std::vector<gsp::change> changeset(gsp::state const&) const override
+        std::vector<gsp::change> changeset() const override
         {
             return {gsp::change {_species, 1}};
         }
@@ -299,7 +304,7 @@ namespace gsp
             return {_species};
         }
 
-        std::vector<gsp::change> changeset(gsp::state const&) const override
+        std::vector<gsp::change> changeset() const override
         {
             return {gsp::change {_species, -1}};
         }
@@ -349,7 +354,7 @@ namespace gsp
             return {_reactant};
         }
 
-        std::vector<gsp::change> changeset(gsp::state const&) const override
+        std::vector<gsp::change> changeset() const override
         {
             return {
                 gsp::change {_reactant, -1},
@@ -406,7 +411,7 @@ namespace gsp
             return {_reactant1, _reactant2};
         }
 
-        std::vector<gsp::change> changeset(gsp::state const&) const override
+        std::vector<gsp::change> changeset() const override
         {
             return {
                 gsp::change {_reactant1, -1},
@@ -465,7 +470,7 @@ namespace gsp
             return {_reactant};
         }
 
-        std::vector<gsp::change> changeset(gsp::state const&) const override
+        std::vector<gsp::change> changeset() const override
         {
             return {
                 gsp::change {_reactant, -1},
@@ -522,7 +527,7 @@ namespace gsp
             return {_mediator};
         }
 
-        std::vector<gsp::change> changeset(gsp::state const&) const override
+        std::vector<gsp::change> changeset() const override
         {
             return {gsp::change {_species, 1}};
         }
@@ -572,7 +577,7 @@ namespace gsp
             return {_species, _mediator};
         }
 
-        std::vector<gsp::change> changeset(gsp::state const&) const override
+        std::vector<gsp::change> changeset() const override
         {
             return {gsp::change {_species, -1}};
         }
