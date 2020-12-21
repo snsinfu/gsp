@@ -6,8 +6,7 @@
 
 Header-only Gillespie simulation library for C++14 and later.
 
-- [Install](#install)
-- [Examples](#examples)
+- [Usage](#usage)
 - [Project Status](#project-status)
 - [License](#license)
 
@@ -18,23 +17,23 @@ Header-only Gillespie simulation library for C++14 and later.
 [cxx-badge]: https://img.shields.io/badge/C%2B%2B-14%2F17%2F20-orange.svg
 
 
-## Install
+## Usage
 
-- [Download gsp.hpp][header].
++-------------------+
+| Download          |
++-------------------+
+| [gsp.hpp][header] |
++-------------------+
 
 The library is zero dependency and single-header only. Just `#include` the
-downloaded header file in your C++ code.
-
-Alternatively, you can add [the hosted repository][repo] as a git submodule of
-your repository and add the include directory to your include path.
+downloaded header file in your C++ code. Or, you can add this repository as
+a git submodule of your project and add `include` directory to your include
+path. This way you can easily track the latest version.
 
 [header]: https://raw.githubusercontent.com/snsinfu/gsp/master/include/gsp.hpp
 [repo]: https://github.com/snsinfu/gsp.git
 
-
-## Examples
-
-Example codes are in the [examples](./examples) directory.
+See [examples](./examples) directory for example usage:
 
 - [A-B-C chain reaction](./examples/abc.cc)
 
