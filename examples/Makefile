@@ -8,7 +8,8 @@ CXXFLAGS = \
   -isystem ../include
 
 PRODUCTS = \
-  abc
+  abc \
+  feedback_cycle
 
 
 .PHONY: all clean

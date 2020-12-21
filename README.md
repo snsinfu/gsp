@@ -19,11 +19,9 @@ Header-only Gillespie simulation library for C++14 and later.
 
 ## Usage
 
-+-------------------+
 | Download          |
-+-------------------+
+|-------------------|
 | [gsp.hpp][header] |
-+-------------------+
 
 The library is zero dependency and single-header only. Just `#include` the
 downloaded header file in your C++ code. Or, you can add this repository as
@@ -33,9 +31,10 @@ path. This way you can easily track the latest version.
 [header]: https://raw.githubusercontent.com/snsinfu/gsp/master/include/gsp.hpp
 [repo]: https://github.com/snsinfu/gsp.git
 
-See [examples](./examples) directory for example usage:
+There are example programs in the [examples directory](./examples):
 
 - [A-B-C chain reaction](./examples/abc.cc)
+- [N-gene negative feedback cycle](./examples/feedback_cycle.cc)
 
 
 ## Project Status

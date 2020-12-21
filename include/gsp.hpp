@@ -592,6 +592,66 @@ namespace gsp
         double _rate;
         size_t _mediator;
     };
+
+
+    // Transformation of single species (reactant) to another species (product)
+    // with a linear catalyst.
+    //
+    //      X + Z --> Y + Z
+    //
+    // The corresponding differential equation in the continuous limit is
+    //
+    //      dX/dt = -k X Z
+    //      dY/dt = k X Z
+    //
+    // where X is the concentration of the reactant, Y is the concentration of
+    // the product, Z is the concentration of the catalyst and k is the rate.
+    //
+    class linear_mediated_transformation : public gsp::reaction
+    {
+    public:
+        struct param
+        {
+            size_t reactant;
+            size_t product;
+            double rate;
+            size_t mediator;
+        };
+
+        linear_mediated_transformation(param const& ps)
+            : _reactant{ps.reactant}
+            , _product{ps.product}
+            , _rate{ps.rate}
+            , _mediator{ps.mediator}
+        {
+        }
+
+        std::vector<size_t> dependency() const override
+        {
+            return {_reactant, _mediator};
+        }
+
+        std::vector<gsp::change> changeset() const override
+        {
+            return {
+                gsp::change {_reactant, -1},
+                gsp::change {_product, 1}
+            };
+        }
+
+        double rate(gsp::state const& state) const override
+        {
+            return _rate * double(
+                state.species[_reactant] * state.species[_mediator]
+            );
+        }
+
+    private:
+        size_t _reactant;
+        size_t _product;
+        double _rate;
+        size_t _mediator;
+    };
 }
 
 #endif
